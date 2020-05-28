@@ -1,0 +1,115 @@
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <style>
+        canvas {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .chart-container {
+            width: 500px;
+            margin-left: 40px;
+            margin-right: 40px;
+            margin-bottom: 40px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="chart-container">
+            <canvas id="dailyChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="weeklyChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="monthlyChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="topPlaysChart"></canvas>
+        </div>
+    </div>
+    <script>
+
+        let dailyPlays = { "data": ["0.15", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.31", "0.46", "0.00", "1.08", "0.15", "0.15", "1.24", "1.70", "2.47", "0.31", "1.39", "0.31", "0.00", "0.15", "0.93", "0.31", "0.93", "0.31", "0.00", "0.31", "0.00", "0.62", "0.15", "0.31", "0.31", "0.00", "0.00", "0.00", "0.31", "1.39", "0.00", "0.00", "0.00", "0.00", "0.15", "0.31", "0.00", "0.31", "0.31", "0.15", "0.15", "0.00", "0.15", "0.15", "0.00", "0.15", "0.15", "0.77", "0.77", "1.85", "0.15", "1.39", "2.01", "1.70", "1.70", "1.85", "1.70", "2.16", "1.55", "1.55", "0.31", "1.55", "1.39", "3.40", "2.78", "1.55", "1.85", "1.55", "3.40", "2.16", "2.63", "2.94", "2.63", "2.47", "2.16", "2.32", "2.47", "2.01", "0.93", "2.01", "3.55", "1.85", "1.85", "0.31", "2.94", "2.16", "3.09", "0.62", "2.01", "2.16"], "labels": ["1/20/2020", "1/21/2020", "1/22/2020", "1/23/2020", "1/24/2020", "1/25/2020", "1/26/2020", "1/27/2020", "1/28/2020", "1/29/2020", "1/30/2020", "1/31/2020", "2/1/2020", "2/2/2020", "2/3/2020", "2/4/2020", "2/5/2020", "2/6/2020", "2/7/2020", "2/8/2020", "2/9/2020", "2/10/2020", "2/11/2020", "2/12/2020", "2/13/2020", "2/14/2020", "2/15/2020", "2/16/2020", "2/17/2020", "2/18/2020", "2/19/2020", "2/20/2020", "2/21/2020", "2/22/2020", "2/23/2020", "2/24/2020", "2/25/2020", "2/26/2020", "2/27/2020", "2/28/2020", "2/29/2020", "3/1/2020", "3/2/2020", "3/3/2020", "3/4/2020", "3/5/2020", "3/6/2020", "3/7/2020", "3/8/2020", "3/9/2020", "3/10/2020", "3/11/2020", "3/12/2020", "3/13/2020", "3/14/2020", "3/15/2020", "3/16/2020", "3/17/2020", "3/18/2020", "3/19/2020", "3/20/2020", "3/21/2020", "3/22/2020", "3/23/2020", "3/24/2020", "3/25/2020", "3/26/2020", "3/27/2020", "3/28/2020", "3/29/2020", "3/30/2020", "3/31/2020", "4/1/2020", "4/2/2020", "4/3/2020", "4/4/2020", "4/5/2020", "4/6/2020", "4/7/2020", "4/8/2020", "4/9/2020", "4/10/2020", "4/11/2020", "4/12/2020", "4/13/2020", "4/14/2020", "4/15/2020", "4/16/2020", "4/17/2020", "4/18/2020", "4/19/2020", "4/20/2020", "4/21/2020", "4/22/2020", "4/23/2020", "4/24/2020", "4/25/2020", "4/26/2020", "4/27/2020", "4/28/2020", "4/29/2020", "4/30/2020", "5/1/2020", "5/2/2020", "5/3/2020", "5/4/2020", "5/5/2020", "5/6/2020", "5/7/2020", "5/8/2020", "5/9/2020", "5/10/2020", "5/11/2020", "5/12/2020", "5/13/2020"] }
+        let weeklyPlays = { "data": ["0.00", "0.00", "0.00", "2.17", "7.43", "2.94", "1.39", "1.70", "1.39", "1.39", "9.60", "10.68", "15.94", "17.34", "14.71", "13.31"], "labels": ["1/23/2020", "1/30/2020", "2/6/2020", "2/13/2020", "2/20/2020", "2/27/2020", "3/5/2020", "3/12/2020", "3/19/2020", "3/26/2020", "4/2/2020", "4/9/2020", "4/16/2020", "4/23/2020", "4/30/2020", "5/7/2020"] }
+        let monthlyPlays = { "data": ["13.78", "32.04", "54.18"], "labels": ["2/18/2020", "3/20/2020", "4/19/2020"] }
+        let topPlays = { "data": ["18.72", "15.64", "9.67", "9.47", "9.47", "9.05", "7.82", "7.82", "6.79", "5.56"], "labels": ["VS 1: Atravessei o atlântico e agora?", "VS 2: Fui trabalhar com roupa suja mas fui salvo pela memória fraca.", "VS 4: Jorge congelou meus dedos. Caí no chão em público lasquei o joelho (de novo). Ruas sujas guinness é boa. Esse fim de semana foi louco e a semana foi mais calma.", "VS 8: Tô rico. Encomendas erradas são perigosas? A primavera vai passar. Não cortaram a energia!", "VS 6: Primeira semana de confinamento/home-office. Muito bolachinhas e chocolate quente. Primavera chegou mas o frio se foi. Acho que agora vou me livrar dos impostos.", "VS 5: Feliz dia da Mulher! O Coronga chegou pra valer. Guarda multou um nativo. Estou em um banker.", "VS 7: Errata. A curiosidade matou o gato. Injustiça. Sua vida vai realmente mudar depois do corona?", "VS 9: Troca de gerente. Lixeira errada. O que a ciência tem a dizer sobre minhas unhas (e saúde)?", "Untitled", "VS 10: Não quero mais uma bicicleta. Meus planos estão bem planejados? Verão cancelado."] };
+
+
+        function playChart(labels, data, title, context) {
+            return new Chart(context, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        fill: false,
+                        label: title,
+                        // backgroundColor: 'rgb(255, 99, 132)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        data: data
+                    }]
+                }
+            });
+        }
+
+        var ctxDaily = document.getElementById('dailyChart').getContext('2d');
+        var ctxWeekly = document.getElementById('weeklyChart').getContext('2d');
+        var ctxMonthly = document.getElementById('monthlyChart').getContext('2d');
+        var topPlaysCtx = document.getElementById('topPlaysChart').getContext('2d');
+
+        playChart(dailyPlays.labels, dailyPlays.data, 'Diario', ctxDaily);
+        playChart(weeklyPlays.labels, weeklyPlays.data, 'Semanal', ctxWeekly);
+        playChart(monthlyPlays.labels, monthlyPlays.data, 'Mensal', ctxMonthly);
+
+
+        var myBarChart = new Chart(topPlaysCtx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    "VS 1",
+                    "VS 2",
+                    "VS 4",
+                    "VS 8",
+                    "VS 6",
+                    "VS 5",
+                    "VS 7",
+                    "VS 9",
+                    "Untitled",
+                    "VS 10"
+                ],
+                datasets: [{
+                    fill: false,
+                    label: 'My First dataset',
+                    // backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [
+                        18.724279835390945,
+                        15.637860082304528,
+                        9.670781893004115,
+                        9.465020576131687,
+                        9.465020576131687,
+                        9.053497942386832,
+                        7.818930041152264,
+                        7.818930041152264,
+                        6.790123456790123,
+                        5.555555555555555
+                    ],
+                }],
+            }
+        });
+    </script>
+</body>
+
+</html>
